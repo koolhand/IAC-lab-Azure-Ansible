@@ -4,6 +4,8 @@ Just learning. Starting with Azure.
 
 ## Why Ansible?
 
+### Ansible vs Terraform
+
 They say
 
 * Terraform for provisioning
@@ -20,6 +22,8 @@ but
 * Ansible can do the provisioning too
 * I've got some basic Python
 * so I'm learning Ansible for both
+
+### Ansible vs Bicep and ARM templates
 
 Also, I'm working in Azure, so there are Microsoft-preferred options: ARM
 templates, and now Bicep. Why not use those?
