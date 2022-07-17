@@ -1,0 +1,12 @@
+- hosts: localhost
+  connection: local
+  collections:
+    - azure.azcollection
+  tasks:
+    - name: Deleting resource group
+      azure_rm_resourcegroup:
+        name: "ansible-test2"
+        state: absent
+      register: rg
+    - debug:
+        var: rg
