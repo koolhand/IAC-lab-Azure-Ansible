@@ -2,6 +2,19 @@
 
 Just learning. Starting with Azure.
 
+## Why this repo
+
+The main idea is just to set up an Active Directory lab, on (insert
+infrastructure here).
+
+I want to learn some IaC anyway - and it should help me recreate a lab from
+scratch at the push of a button.
+
+The Microsoft documentation for using Ansible with Azure tends to have steps
+that fail in a bunch of places, because it's pointing at older Azure modules,
+modules that conflict with azure-cli, inconsistent use of variables vs
+hardcoded. So I'll try to iron some of that out, and record how I got there.
+
 ## Why Ansible?
 
 ### Ansible vs Terraform
@@ -32,19 +45,6 @@ templates, and now Bicep. Why not use those?
 labs that could deploy other infrastructure (AWS, GCP, libvirt, or VMware). The
 options available are different in work and home life.
 * So I'm using something cross-platform for now, to give me that option later.
-
-## Why this repo
-
-The main idea is just to set up an Active Directory lab, on (insert
-infrastructure here).
-
-I want to learn some IaC anyway - and it should help me recreate a lab from
-scratch at the push of a button.
-
-The Microsoft documentation for using Ansible with Azure tends to have steps
-that fail in a bunch of places, because it's pointing at older Azure modules,
-modules that conflict with azure-cli, inconsistent use of variables vs
-hardcoded. So I'll try to iron some of that out, and record how I got there.
 
 ## Things to try
 
