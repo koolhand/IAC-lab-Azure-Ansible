@@ -87,7 +87,7 @@
       azure_rm_virtualmachine:
         resource_group: lab001rg
         name: lab001vm
-        vm_size: Standard_DS1_v2
+        vm_size: Standard_DS2_v2 # Standard_DS1_v2, too small
         admin_username: azureuser
         admin_password: "{{ password }}"
         network_interfaces: lab001nic
