@@ -19,13 +19,14 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
 ## set up Ansible learning folders
 # ---------------------------------------------------------------------------
 
-mkdir -p ~/source/learn-ansible
-cd ~/source/learn-ansible
-python -m venv .venv
-source ./.venv/bin/activate
+export PROJECT=~/source/learn-ansible
+mkdir -p $PROJECT
+cd $PROJECT
+python -m venv $PROJECT/.venv
+source $PROJECT/.venv/bin/activate
 
 # install Ansible and WinRM
-pip install -r requirements.txt --uppgrade
+pip install -r $PROJECT/requirements.txt --uppgrade
 # pip install ansible
 # pip install "pywinrm>=0.2.2"
 
@@ -64,19 +65,20 @@ chmod +x ~/azurecreds.sh
 ## one-liner
 ansible localhost -m azure.azcollection.azure_rm_resourcegroup -a "name=ansible-test location=australiaeast"
 ## playbook
-mkdir -p ~/source/learn-ansible/basic-ansible-check
-cd ~/source/learn-ansible/basic-ansible-check
+mkdir -p $PROJECT/basic-ansible-check
+cd $PROJECT/basic-ansible-check
 ## <--- edit files here
-ansible-playbook ./basic-ansible-check/create_rg.yml # create
-ansible-playbook ./basic-ansible-check/delete_rg.yml # delete / cleanup
+ansible-playbook $PROJECT/basic-ansible-check/create_rg.yml # create
+ansible-playbook $PROJECT/basic-ansible-check/delete_rg.yml # delete / cleanup
 
 # ---------------------------------------------------------------------------
 ## set up a Windows VM and connect over WinRM
 # ---------------------------------------------------------------------------
 
-mkdir -p ~/source/learn-ansible/single-windows-vm-winrm
-cd ~/source/learn-ansible/single-windows-vm-winrm
-ansible-playbook windows-vm.yml # get the public IP
+mkdir -p $PROJECT/single-windows-vm-winrm
+cd $PROJECT/single-windows-vm-winrm
+
+ansible-playbook $PROJECT/single-windows-vm-winrm/windows-vm-create.yml # get the public IP
 pip install "pywinrm>=0.2.2" # needed for WinRM connection see https://access.redhat.com/solutions/3356681
-ansible-playbook connect-vm.yml -i PUBLICIPADDRESSHERE,
-ansible-playbook delete-windows-vm.yml
+ansible-playbook $PROJECT/single-windows-vm-winrm/windows-vm-connect.yml -i PUBLICIPADDRESSHERE,
+ansible-playbook $PROJECT/single-windows-vm-winrm/windows-vm-delete.yml
