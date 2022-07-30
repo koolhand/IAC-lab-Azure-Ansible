@@ -24,15 +24,6 @@
     - debug:
         var: out_vm
 
-    - name: Delete Storage Group
-      azure_rm_storageaccount:
-        resource_group: lab001rg
-        name: lab001storageaccount
-        state: absent
-      register: out_storageaccount
-    - debug:
-        var: out_storageaccount
-
     - name: Delete a network interface
       azure_rm_networkinterface:
         name: lab001nic
