@@ -1,2 +1,4 @@
 .venv
 .vscode
+*/group_vars/
+start.sh
