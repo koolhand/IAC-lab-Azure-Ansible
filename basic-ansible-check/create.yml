@@ -5,5 +5,5 @@
   tasks:
     - name: Creating resource group
       azure_rm_resourcegroup:
-        name: "ansible-test2"
+        name: "ansible-test1"
         location: "australiaeast"
