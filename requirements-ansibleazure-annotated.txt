@@ -1,0 +1,70 @@
+# galaxy version, minus versions, with comments on the ones that don't upgrade
+packaging
+requests[security]
+xmltodict
+azure-cli-core
+azure-common
+azure-identity
+msrest
+msrestazure
+azure-mgmt-apimanagement
+azure-mgmt-authorization
+azure-mgmt-batch
+azure-mgmt-cdn
+azure-mgmt-compute
+azure-mgmt-containerinstance
+azure-mgmt-containerregistry
+azure-mgmt-containerservice
+azure-mgmt-datalake-store
+azure-mgmt-datafactory
+azure-mgmt-dns
+azure-mgmt-keyvault
+azure-mgmt-marketplaceordering
+azure-mgmt-monitor
+azure-mgmt-managedservices
+azure-mgmt-managementgroups
+azure-mgmt-network
+azure-mgmt-nspkg
+azure-mgmt-privatedns
+azure-mgmt-redis
+
+azure-mgmt-resource==10.2.0
+# azure-mgmt-resource
+## latest version causes ansible to fail with bunch of errors
+
+azure-mgmt-rdbms
+azure-mgmt-search
+azure-mgmt-servicebus
+azure-mgmt-sql
+azure-mgmt-storage
+azure-mgmt-trafficmanager
+azure-mgmt-web
+azure-nspkg
+
+azure-storage==0.35.1
+# azure-storage
+## error on install says deprecated + use specific storage e.g. azure-storage-blob, azure-storage-file-share, azure-storage-file-datalake, azure-storage-queue
+
+azure-keyvault
+azure-graphrbac
+azure-mgmt-cosmosdb
+azure-mgmt-hdinsight
+azure-mgmt-devtestlabs
+azure-mgmt-loganalytics
+azure-mgmt-automation
+azure-mgmt-iothub
+azure-mgmt-recoveryservices
+
+azure-mgmt-recoveryservicesbackup==0.6.0
+# azure-mgmt-recoveryservicesbackup
+## current version is 5.0.0
+## fails on ansible module line
+##   from azure.mgmt.recoveryservicesbackup import RecoveryServicesBackupClient
+## which fails in standalone project just importing 
+## see
+## https://github.com/ansible-collections/azure/blob/dev/plugins/module_utils/azure_rm_common.py
+## https://pypi.org/project/azure-mgmt-recoveryservicesbackup/
+## https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/recoveryservices/azure-mgmt-recoveryservicesbackup
+
+azure-mgmt-notificationhubs
+azure-mgmt-eventhub
