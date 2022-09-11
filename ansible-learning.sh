@@ -82,10 +82,31 @@ ansible-playbook $PROJECT/basic-ansible-check/delete_rg.yml # delete / cleanup
 ## set up a Windows VM and connect over WinRM
 # ---------------------------------------------------------------------------
 
-mkdir -p $PROJECT/single-windows-vm-winrm
-cd $PROJECT/single-windows-vm-winrm
+mkdir -p $PROJECT/single-win-vm
+cd $PROJECT/single-win-vm
 
-ansible-playbook $PROJECT/single-windows-vm-winrm/windows-vm-create.yml # get the public IP
+ansible-playbook $PROJECT/single-win-vm/1-create.yml # get the public IP
 pip3 install "pywinrm>=0.2.2" # needed for WinRM connection see https://access.redhat.com/solutions/3356681
-ansible-playbook $PROJECT/single-windows-vm-winrm/windows-vm-connect.yml -i PUBLICIPADDRESSHERE,
-ansible-playbook $PROJECT/single-windows-vm-winrm/windows-vm-delete.yml
+
+# ansible-playbook $PROJECT/single-win-vm/2-test.yml -i 20.5.108.14, # or public IP whatever it is
+#add IP to winhosts.ini
+ansible-playbook -i $PROJECT/single-win-vm/winhosts.ini $PROJECT/single-win-vm/2-test.yml
+
+# ---------------------------------------------------------------------------
+## actually manage the OS
+# https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_feature_module.html
+# 
+## install software with chocolatey
+# https://docs.ansible.com/ansible/latest/collections/chocolatey/chocolatey/win_chocolatey_module.html
+# 
+# no python dependencies after this
+# ---------------------------------------------------------------------------
+ansible-galaxy collection install ansible.windows --upgrade
+ansible-galaxy collection install chocolatey.chocolatey
+pip3 install --upgrade --requirement ~/.ansible/collections/ansible_collections/chocolatey/chocolatey/requirements.txt
+# ---------------------------------------------------------------------------
+
+
+ansible-playbook -i $PROJECT/single-win-vm/winhosts.ini $PROJECT/single-win-vm/3-update.yml
+ansible-playbook -i $PROJECT/single-win-vm/winhosts.ini $PROJECT/single-win-vm/4-addsoftware.yml
+ansible-playbook -i $PROJECT/single-win-vm/winhosts.ini $PROJECT/single-win-vm/5-dcpromo.yml

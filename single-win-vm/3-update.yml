@@ -1,0 +1,13 @@
+---
+- name: Test connection
+  hosts: dc
+  collections:
+    - ansible.windows.win_updates
+  vars_prompt:
+    - name: ansible_password
+      prompt: "Enter local administrator password"
+  tasks:
+    - name: Install all updates and reboot as many times as needed
+      ansible.windows.win_updates:
+        category_names: "*"
+        reboot: yes

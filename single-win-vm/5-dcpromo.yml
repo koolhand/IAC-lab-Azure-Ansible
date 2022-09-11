@@ -1,0 +1,18 @@
+---
+- name: Become Domain Controller
+  hosts: dc
+  collections:
+    - ansible.windows.win_domain_controller
+  vars_prompt:
+    - name: ansible_password
+      prompt: "Enter local administrator password"
+  tasks:
+    - name: Promote to Domain Controller
+      win_domain:
+        safe_mode_password: { ansible_password }
+        install_dns: yes
+        dns_domain_name: paradoxus.local
+      register: active_directory_controllers
+    - name: Reboot Domain Controller after promotion
+      win_reboot:
+      when: active_directory_controllers.reboot_required

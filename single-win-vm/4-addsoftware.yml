@@ -1,0 +1,24 @@
+---
+- name: Create Azure VM
+  hosts: dc
+  collections:
+    - ansible.windows.win_feature
+    # - chocolatey.chocolatey.win_chocolatey
+  vars_prompt:
+    - name: ansible_password
+      prompt: "Enter local administrator password"
+  tasks:
+    - name: install RSAT
+      ansible.windows.win_feature:
+        include_sub_features: yes
+        name: RSAT
+    # - name: Install multiple packages
+    #   win_chocolatey:
+    #     name:
+    #       - sysinternals
+    #       - git
+    #       - python
+    #       - powershell-core
+    #       - vscode
+    #       - windows-admin-center
+    #     state: present
