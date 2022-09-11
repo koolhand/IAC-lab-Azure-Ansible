@@ -4,7 +4,6 @@
   connection: local
   collections:
     - azure.azcollection
-    - ansible.windows.win_feature
   tasks:
     - name: Delete VM script extension to enable HTTPS WinRM listener
       azure_rm_virtualmachineextension:
