@@ -1,0 +1,49 @@
+---
+- name: Delete Azure RG
+  hosts: localhost
+  connection: local
+  collections:
+    - azure.azcollection
+  tasks:
+    - name: Delete VM script extension to enable HTTPS WinRM listener
+      azure_rm_virtualmachineextension:
+        virtual_machine_name: lab001vm
+        resource_group: lab001rg
+        name: lab001winrmextension
+        state: absent
+    - name: Delete VM
+      azure_rm_virtualmachine:
+        resource_group: lab001rg
+        name: lab001vm
+        state: absent
+    - name: Delete network interface
+      azure_rm_networkinterface:
+        name: lab001nic
+        resource_group: lab001rg
+        state: absent
+    - name: Delete Network Security Group
+      azure_rm_securitygroup:
+        resource_group: lab001rg
+        name: lab001nsg
+        state: absent
+    - name: Delete public IP address
+      azure_rm_publicipaddress:
+        resource_group: lab001rg
+        allocation_method: Static
+        name: lab001publicip
+        state: absent
+    - name: Delete subnet
+      azure_rm_subnet:
+        resource_group: lab001rg
+        virtual_network_name: lab001vnet
+        name: lab001subnet
+        state: absent
+    - name: Delete virtual network
+      azure_rm_virtualnetwork:
+        resource_group: lab001rg
+        name: lab001vnet
+        state: absent
+    - name: Delete resource group
+      azure_rm_resourcegroup:
+        name: lab001rg
+        state: absent

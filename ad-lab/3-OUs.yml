@@ -1,0 +1,164 @@
+- name: create OUs
+  hosts: dc
+  collections:
+    - community.windows.win_domain_ou
+  vars_prompt:
+    - name: ansible_password
+      prompt: "Enter administrator password"
+  tasks:
+    - name: create Computer Accounts OU
+      community.windows.win_domain_ou:
+        name: Computer Accounts
+        path: DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create User Accounts OU
+      community.windows.win_domain_ou:
+        name: User Accounts
+        path: DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Our People OU
+      community.windows.win_domain_ou:
+        name: Our People
+        path: OU=User Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Our Clients OU
+      community.windows.win_domain_ou:
+        name: Our Clients
+        path: OU=User Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create IT Consultant Non-Privileged Accounts OU
+      community.windows.win_domain_ou:
+        name: IT Consultant Non-Privileged Accounts
+        path: OU=User Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Staff-like Test Accounts OU
+      community.windows.win_domain_ou:
+        name: Staff-like Test Accounts
+        path: OU=User Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Staff-like Training Accounts OU
+      community.windows.win_domain_ou:
+        name: Staff-like Training Accounts
+        path: OU=User Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create IT Admin Accounts Consultants OU
+      community.windows.win_domain_ou:
+        name: IT Admin Accounts Consultants
+        path: OU=User Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create IT Admin Accounts Our People OU
+      community.windows.win_domain_ou:
+        name: IT Admin Accounts Our People
+        path: OU=User Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create IT Service Accounts OU
+      community.windows.win_domain_ou:
+        name: IT Service Accounts
+        path: OU=User Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create IT Service Accounts gMSA OU
+      community.windows.win_domain_ou:
+        name: IT Service Accounts gMSA
+        path: OU=User Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Groups OU
+      community.windows.win_domain_ou:
+        name: Groups
+        path: DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create IT Admin Team Groups OU
+      community.windows.win_domain_ou:
+        name: IT Admin Team Groups
+        path: OU=Groups,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create IT Admin Role Groups OU
+      community.windows.win_domain_ou:
+        name: IT Admin Role Groups
+        path: OU=Groups,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Computer Accounts OU
+      community.windows.win_domain_ou:
+        name: Computer Accounts
+        path: DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Servers OU
+      community.windows.win_domain_ou:
+        name: Servers
+        path: OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Workstations OU
+      community.windows.win_domain_ou:
+        name: Workstations
+        path: OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create SOE Full OU
+      community.windows.win_domain_ou:
+        name: SOE Full
+        path: OU=Workstations,OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create SOE Light OU
+      community.windows.win_domain_ou:
+        name: SOE Light
+        path: OU=Workstations,OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Windows IOT OU
+      community.windows.win_domain_ou:
+        name: Windows IOT
+        path: OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Windows display panels OU
+      community.windows.win_domain_ou:
+        name: Windows display panels
+        path: OU=Windows IOT,OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Teams rooms OU
+      community.windows.win_domain_ou:
+        name: Teams rooms
+        path: OU=Windows IOT,OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Macintosh workstations OU
+      community.windows.win_domain_ou:
+        name: Macintosh workstations
+        path: OU=Workstations,OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create PAW OU
+      community.windows.win_domain_ou:
+        name: PAW
+        path: OU=Workstations,OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create Jump Boxes OU
+      community.windows.win_domain_ou:
+        name: Jump Boxes
+        path: OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false
+    - name: create End User Terminal Servers OU
+      community.windows.win_domain_ou:
+        name: End User Terminal Servers
+        path: OU=Computer Accounts,DC=paradoxus,DC=local
+        state: present
+        protected: false

@@ -32,14 +32,14 @@ ansible-galaxy collection install azure.azcollection --upgrade
 pip3 install --upgrade --requirement ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
 ```
 
-Tried getting the latest of everything to make it work
+The requirements in that file are all pinned, and those versions need to be pinned. I tried getting the latest of everything to make it work...
 
 ```sh
 # pip freeze | grep azure | cut -f 1 -d= | xargs -L1 pip3 install --upgrade
 cut -f 1 -d= ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt | xargs -L1 pip3 install --upgrade
 ```
 
-but no - bugs in various bit means the frozen versions in the collection are needed..
+...but no, lots of errors running ansible commands after that - the various ansible plugins in the collection haven't been updated to work with the latest packages.
 
 ## Set up Azure credentials
 
@@ -71,6 +71,8 @@ A one-liner using ```ansible``` (not ```ansible-playbook```):
 ansible localhost -m azure.azcollection.azure_rm_resourcegroup -a "name=ansible-test location=australiaeast"
 ```
 
+This will create a resource group called ```ansible-test``` which you can delete from the [Azure portal](https://portal.azure.com/#view/HubsExtension/BrowseResourceGroups).
+
 ## playbook for a basic check
 
 ```sh
@@ -87,13 +89,39 @@ ansible-playbook $PROJECT/basic-ansible-check/delete_rg.yml # delete / cleanup
 mkdir -p $PROJECT/single-win-vm
 cd $PROJECT/single-win-vm
 
+## create
 ansible-playbook $PROJECT/single-win-vm/1-create.yml # get the public IP
-pip3 install "pywinrm>=0.2.2" # needed for WinRM connection see https://access.redhat.com/solutions/3356681
 
-ansible-playbook $PROJECT/single-win-vm/2-test.yml -i x.x.x.x, # public IP whatever it is
+## test connection
+pip3 install "pywinrm>=0.2.2" # needed for WinRM connection see https://access.redhat.com/solutions/3356681
 # add IP to winhosts.ini
-ansible-playbook $PROJECT/single-win-vm/2-test.yml -i $PROJECT/single-win-vm/winhosts.ini 
+ansible-playbook -i $PROJECT/single-win-vm/winhosts.ini $PROJECT/single-win-vm/2-test.yml
+# something here isn't working
+# or # ansible-playbook $PROJECT/single-win-vm/2-test.yml -i x.x.x.x, # public IP whatever it is
+
+## apply updates
+ansible-playbook -i $PROJECT/single-win-vm/winhosts.ini $PROJECT/single-win-vm/3-update.yml
+
+## add software
+ansible-playbook -i $PROJECT/single-win-vm/winhosts.ini $PROJECT/single-win-vm/4-addsoftware.yml
+
+## apply updates
+ansible-playbook -i $PROJECT/single-win-vm/winhosts.ini $PROJECT/single-win-vm/5-destroy.yml
 ```
+
+## testing my AD lab
+
+```sh
+cd $PROJECT/ad-lab/
+ansible-playbook -i winhosts.ini 1-create-rg-and-vm.yml
+ansible-playbook -i winhosts.ini 2-dcpromo-and-software.yml
+
+ansible-galaxy collection install community.windows
+ansible-playbook -i winhosts.ini 3-OUs.yml
+
+ansible-playbook -i winhosts.ini z-destroy.yml
+```
+
 
 ## more Ansible modules
 

@@ -6,33 +6,35 @@
     - ansible.windows.win_domain_controller
     - chocolatey.chocolatey.win_chocolatey
   vars_prompt:
-    - name: admin_password
+    - name: ansible_password
       prompt: "Enter local / built-in Administrator password"
     - name: adsafemode_password
       prompt: "Enter AD safe mode password"
   tasks:
+    - name: install RSAT
+      ansible.windows.win_feature:
+        include_sub_features: yes
+        name: RSAT
+    - name: install utilities
+      win_chocolatey:
+        name:
+          - windows-admin-center
+          - sysinternals
+          - git.install
+          - python3
+          - powershell-core
+          - vscode.install
+        state: present
     - name: Install all updates and reboot as many times as needed
       ansible.windows.win_updates:
         category_names: "*"
         reboot: yes
-
     - name: Promote to Domain Controller
       win_domain:
-        safe_mode_password: { ansible_password }
+        safe_mode_password: { adsafemode_password }
         install_dns: yes
         dns_domain_name: paradoxus.local
       register: active_directory_controllers
     - name: Reboot Domain Controller after promotion
       win_reboot:
       when: active_directory_controllers.reboot_required
-
-    - name: Install multiple packages
-      win_chocolatey:
-        name:
-          - sysinternals
-          - git
-          - python
-          - powershell-core
-          - vscode
-          - windows-admin-center
-        state: present

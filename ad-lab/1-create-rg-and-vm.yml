@@ -7,8 +7,6 @@
   vars_prompt:
     - name: admin_password
       prompt: "Enter local / built-in Administrator password"
-    - name: adsafemode_password
-      prompt: "Enter AD safe mode password"
   tasks:
     - name: Create resource group
       azure_rm_resourcegroup:
