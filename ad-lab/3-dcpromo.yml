@@ -2,29 +2,14 @@
 - name: Post DC
   hosts: dc
   collections:
-    - ansible.windows.win_feature
+    - ansible.windows.win_updatees
     - ansible.windows.win_domain_controller
-    - chocolatey.chocolatey.win_chocolatey
   vars_prompt:
     - name: ansible_password
       prompt: "Enter local / built-in Administrator password"
     - name: adsafemode_password
       prompt: "Enter AD safe mode password"
   tasks:
-    - name: install RSAT
-      ansible.windows.win_feature:
-        include_sub_features: yes
-        name: RSAT
-    - name: install utilities
-      win_chocolatey:
-        name:
-          - windows-admin-center
-          - sysinternals
-          - git.install
-          - python3
-          - powershell-core
-          - vscode.install
-        state: present
     - name: Install all updates and reboot as many times as needed
       ansible.windows.win_updates:
         category_names: "*"

@@ -2,10 +2,12 @@
 - name: Test connection
   hosts: dc
   vars_prompt:
+    - name: ansible_user
+      prompt: "Enter local administrator username"
     - name: ansible_password
       prompt: "Enter local administrator password"
   vars:
-    ansible_user: azureuser
+    ansible_user: "{{ ansible_user }}"
     ansible_connection: winrm
     #    ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore

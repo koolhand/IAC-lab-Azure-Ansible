@@ -77,8 +77,8 @@ ansible localhost -m azure.azcollection.azure_rm_resourcegroup -a "name=ansible-
 mkdir -p $PROJECT/basic-ansible-check
 cd $PROJECT/basic-ansible-check
 ## <--- edit files here
-ansible-playbook $PROJECT/basic-ansible-check/create_rg.yml # create
-ansible-playbook $PROJECT/basic-ansible-check/delete_rg.yml # delete / cleanup
+ansible-playbook $PROJECT/basic-ansible-check/create.yml # create
+ansible-playbook $PROJECT/basic-ansible-check/destroy.yml # delete / cleanup
 ```
 
 ## playbook for a Windows VM and connect over WinRM

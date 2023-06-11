@@ -3,8 +3,10 @@
   collections:
     - community.windows.win_domain_ou
   vars_prompt:
+    - name: ansible_user
+      prompt: "Enter local / built-in Administrator user"
     - name: ansible_password
-      prompt: "Enter administrator password"
+      prompt: "Enter local / built-in Administrator password"
   tasks:
     - name: create Computer Accounts OU
       community.windows.win_domain_ou:

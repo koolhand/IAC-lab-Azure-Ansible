@@ -7,7 +7,9 @@
     - ansible.windows.win_feature
     - ansible.windows.win_file
   vars_prompt:
-    - name: password
+    - name: ansible_user
+      prompt: "Enter local administrator username"
+    - name: ansible_password
       prompt: "Enter local administrator password"
   tasks:
     - name: Create resource group
@@ -86,8 +88,8 @@
         resource_group: lab001rg
         name: lab001vm
         vm_size: Standard_DS3_v2 # Standard_DS1_v2, too small
-        admin_username: azureuser
-        admin_password: "{{ password }}"
+        admin_username: "{{ ansible_user }}"
+        ansible_password: "{{ ansible_password }}"
         network_interface_names: lab001nic
         os_type: Windows
         managed_disk_type: Premium_LRS # StandardSSD_LRS, Standard_LRS
