@@ -1,0 +1,18 @@
+---
+- name: Post DC
+  hosts: dc
+  collections:
+    - chocolatey.chocolatey.win_chocolatey
+  vars_prompt:
+    - name: ansible_password
+      prompt: "Enter local / built-in Administrator password"
+  tasks:
+    - name: install utilities
+      win_chocolatey:
+        name:
+          - sysinternals
+          - git.install
+          - python3
+          - powershell-core
+          - vscode.install
+        state: present

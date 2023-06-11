@@ -1,0 +1,18 @@
+---
+- name: Post DC
+  hosts: dc
+  collections:
+    - ansible.windows.win_feature
+    - ansible.windows.win_updates
+  vars_prompt:
+    - name: ansible_password
+      prompt: "Enter local / built-in Administrator password"
+  tasks:
+    - name: install RSAT
+      ansible.windows.win_feature:
+        include_sub_features: yes
+        name: RSAT
+    - name: Install all updates and reboot as many times as needed
+      ansible.windows.win_updates:
+        category_names: "*"
+        reboot: yes
