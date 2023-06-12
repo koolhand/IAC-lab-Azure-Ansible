@@ -1,4 +1,5 @@
 .venv
 .vscode
 */group_vars/
-*/hosts.ini
+ad-lab/winhosts.ini
+ad-lab/1-create-rg-and-vm-OLD.yml
