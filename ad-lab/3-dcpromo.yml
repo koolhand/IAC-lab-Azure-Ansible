@@ -10,9 +10,9 @@
       prompt: "Enter local / built-in Administrator password"
     - name: adsafemode_password
       prompt: "Enter AD safe mode password"
-    - name: ad_dns_domain_name
-      prompt: "Enter AD DNS domain name e.g. domain.local"
-      private: false
+    # - name: ad_dns_domain_name
+    #   prompt: "Enter AD DNS domain name e.g. domain.local"
+    #   private: false
   tasks:
     - name: Install all updates and reboot as many times as needed
       ansible.windows.win_updates:
@@ -20,7 +20,7 @@
         reboot: true
     - name: Promote to Domain Controller
       ansible.windows.win_domain:
-        safe_mode_password: { adsafemode_password } }
+        safe_mode_password: { adsafemode_password }
         install_dns: yes
         dns_domain_name: { { ad_dns_domain_name } }
       register: active_directory_controllers
