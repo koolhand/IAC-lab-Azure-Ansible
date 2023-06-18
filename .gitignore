@@ -2,4 +2,5 @@
 .vscode
 */group_vars/
 ad-lab/winhosts.ini
-ad-lab/1-create-rg-and-vm-OLD.yml
+ad-lab/bits.txt
+ad-lab/4c-linxuserstuff.txt

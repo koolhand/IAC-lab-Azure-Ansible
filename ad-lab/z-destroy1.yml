@@ -5,12 +5,12 @@
   collections:
     - azure.azcollection
   tasks:
-    - name: Delete VM script extension to enable HTTPS WinRM listener
-      azure_rm_virtualmachineextension:
-        virtual_machine_name: lab001vm1
-        resource_group: lab001rg
-        name: lab001winrmextension
-        state: absent
+    # - name: Delete VM script extension to enable HTTPS WinRM listener
+    #   azure_rm_virtualmachineextension:
+    #     virtual_machine_name: lab001vm1
+    #     resource_group: lab001rg
+    #     name: lab001winrmextension
+    #     state: absent
     - name: Delete VM
       azure_rm_virtualmachine:
         resource_group: lab001rg

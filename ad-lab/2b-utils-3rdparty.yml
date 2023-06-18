@@ -3,6 +3,8 @@
   hosts: dc
   collections:
     - chocolatey.chocolatey.win_chocolatey
+    - ansible.windows.win_updates
+    - ansible.windows.win_reboot
   vars_prompt:
     - name: ansible_password
       prompt: "Enter local / built-in Administrator password"
@@ -15,4 +17,10 @@
           - python3
           - powershell-core
           - vscode.install
+          - windows-admin-center
         state: present
+    - name: Install all updates and reboot as many times as needed
+      ansible.windows.win_updates:
+        state: installed
+        reboot: true
+        reboot_timeout: 3600

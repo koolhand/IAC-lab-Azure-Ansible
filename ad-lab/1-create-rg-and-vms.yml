@@ -11,8 +11,10 @@
       prompt: "Enter Linux root password"
     - name: ssh_publickey
       prompt: "Enter SSH public key"
+      private: false
     - name: home_ip_range
       prompt: "Enter your home IP range e.g. 1.2.3.4/32"
+      private: false
   tasks:
     - name: Create resource group
       azure_rm_resourcegroup:
@@ -73,7 +75,14 @@
             priority: 1003
             direction: Inbound
             source_address_prefix: "{{ home_ip_range }}"
-
+          - name: "allow_windows_admin_center"
+            protocol: Tcp
+            destination_port_range:
+              - 6516
+            access: Allow
+            priority: 1004
+            direction: Inbound
+            source_address_prefix: "{{ home_ip_range }}"
     - name: Create a network interface
       azure_rm_networkinterface:
         name: lab001nic1

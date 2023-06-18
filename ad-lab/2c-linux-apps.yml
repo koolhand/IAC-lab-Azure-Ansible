@@ -1,0 +1,48 @@
+---
+- name: Post Rocky
+  hosts: rocky
+  become: true
+  tasks:
+    - name: Upgrade all packages # sudo dnf upgrade -y
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+    - name: Install EPEL # sudo dnf install -y epel-release
+      ansible.builtin.dnf:
+        name:
+          - epel-release
+    - name: Upgrade all packages again after EPEL # sudo dnf upgrade -y
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+    - name: Install packages # sudo dnf install -y etc
+      ansible.builtin.dnf:
+        name:
+          - net-tools
+          - util-linux-user
+          - epel-release
+          - git
+          - zsh
+          - python3-pip
+          - podman
+          - cockpit
+          - cockpit-machines
+          - dnf-automatic
+          - openscap-scanner
+          - btop
+    - name: Enable cockpit socket # sudo systemctl enable --now cockpit.socket
+      ansible.builtin.systemd:
+        name: cockpit.socket
+        enabled: true
+    - name: Set dnf-automatic to completely install packages
+      ini_file:
+        path: /etc/dnf/automatic.conf
+        section: commands
+        option: apply_updates
+        value: "yes"
+    - name: Set dnf-automatic to install updates
+      systemd:
+        name: dnf-automatic.timer
+        enabled: yes
+        state: started
+# apply CIS template, apply E8 template
