@@ -1,10 +1,8 @@
 ---
-- name: Post DC
+- name: Upgrade Windows server to Domain Controller
   hosts: dc
   collections:
-    - ansible.windows.win_updates
-    - ansible.windows.win_domain_controller
-    - ansible.windows.win_reboot
+    - ansible.windows.win_domain
   vars_prompt:
     - name: ansible_password
       prompt: "Enter local / built-in Administrator password"
@@ -14,16 +12,12 @@
     #   prompt: "Enter AD DNS domain name e.g. domain.local"
     #   private: false
   tasks:
-    - name: Install all updates and reboot as many times as needed
-      ansible.windows.win_updates:
-        state: installed
-        reboot: true
-    - name: Promote to Domain Controller
+    - name: Creating new domain, promoting server to domain controller
       ansible.windows.win_domain:
-        safe_mode_password: { adsafemode_password }
+        safe_mode_password: "{{ adsafemode_password }}"
         install_dns: yes
-        dns_domain_name: { { ad_dns_domain_name } }
-      register: active_directory_controllers
-    - name: Reboot Domain Controller after promotion
+        dns_domain_name: "{{ ad_dns_domain_name }}"
+      register: domaincreate
+    - name: Rebooting domain controller after new domain + promotion
       ansible.windows.win_reboot:
-      when: active_directory_controllers.reboot_required
+      when: domaincreate.reboot_required

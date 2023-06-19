@@ -1,19 +1,25 @@
 ---
-- name: Post DC
+- name: Windows Server - Install RSAT and Windows Updates
   hosts: dc
   collections:
     - ansible.windows.win_feature
     - ansible.windows.win_updates
+    - ansible.windows.win_reboot
   vars_prompt:
     - name: ansible_password
       prompt: "Enter local / built-in Administrator password"
   tasks:
-    - name: install RSAT
+    - name: Installing RSAT
       ansible.windows.win_feature:
         include_sub_features: yes
         name: RSAT
-    - name: Install all updates and reboot as many times as needed
+    - name: Rebooting after RSAT
+      ansible.windows.win_reboot:
+    - name: Installing all updates and rebooting again if needed
       ansible.windows.win_updates:
+        category_names:
+          - SecurityUpdates
+          - CriticalUpdates
+          - UpdateRollups
         state: installed
         reboot: true
-        reboot_timeout: 3600

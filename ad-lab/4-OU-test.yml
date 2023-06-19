@@ -1,0 +1,14 @@
+- name: Creating OUs
+  hosts: dc
+  collections:
+    - community.windows.win_domain_ou
+  vars_prompt:
+    - name: ansible_password
+      prompt: "Enter DOMAIN Administrator password"
+  tasks:
+    - name: Creating 'test' OU
+      community.windows.win_domain_ou:
+        name: Test
+        path: "{{ ad_domain_dn }}"
+        state: present
+        protected: false

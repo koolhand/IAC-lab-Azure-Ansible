@@ -1,0 +1,26 @@
+- name: Creating OUs
+  hosts: dc
+  collections:
+    - community.windows.win_domain_ou
+  vars_prompt:
+    - name: ansible_user
+      prompt: "Enter DOMAIN Administrator user UPN (user@dns.domain)"
+      private: false
+    - name: ansible_password    
+      prompt: "Enter DOMAIN Administrator password"
+  tasks:
+    - name: Creating 'Computer Accounts' OU
+      community.windows.win_domain_ou:
+        name: Computer Accounts
+        path: "{{ ad_domain_dn }}"
+        state: absent
+    - name: Creating 'User Accounts' OU
+      community.windows.win_domain_ou:
+        name: User Accounts
+        path: "{{ ad_domain_dn }}"
+        state: absent
+    - name: Creating 'Groups' OU
+      community.windows.win_domain_ou:
+        name: Groups
+        path: DC=paradoxus,DC=local
+        state: absent

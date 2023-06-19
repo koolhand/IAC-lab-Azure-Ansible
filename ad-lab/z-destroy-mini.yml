@@ -1,0 +1,12 @@
+---
+- name: Delete Azure RG
+  hosts: localhost
+  connection: local
+  collections:
+    - azure.azcollection
+  tasks:
+    - name: Delete Windows VM
+      azure_rm_virtualmachine:
+        resource_group: lab001rg
+        name: lab001vm1
+        state: absent

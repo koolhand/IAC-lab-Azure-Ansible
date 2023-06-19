@@ -1,169 +1,176 @@
-- name: create OUs
+- name: Creating OUs
   hosts: dc
   collections:
     - community.windows.win_domain_ou
   vars_prompt:
     - name: ansible_user
-      prompt: "Enter DOMAIN Administrator user"
-    - name: ansible_password
-      prompt: "Enter DOMAIN Administrator password"
-    - name: ad_domain_dn
-      prompt: "Enter AD DNS domain name e.g. domain.local"
+      prompt: "Enter DOMAIN Administrator user UPN (user@dns.domain)"
       private: false
+    - name: ansible_password    
+      prompt: "Enter DOMAIN Administrator password"
+    # - name: ad_domain_dn
+    #   prompt: "Enter AD DNS domain name e.g. DC=domain,DC=local"
+    #   private: false
   tasks:
-    - name: create Computer Accounts OU
+    - name: Creating 'Computer Accounts' OU
       community.windows.win_domain_ou:
         name: Computer Accounts
-        path: { { ad_domain_dn } }
+        path: "{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create User Accounts OU
+    - name: Creating 'User Accounts' OU
       community.windows.win_domain_ou:
         name: User Accounts
-        path: { { ad_domain_dn } }
+        path: "{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Our People OU
+    - name: Creating 'Our People' OU
       community.windows.win_domain_ou:
         name: Our People
-        path: "OU=User Accounts,{ { ad_domain_dn } }"
+        path: "OU=User Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Our Clients OU
+    - name: Creating 'Our Clients' OU
       community.windows.win_domain_ou:
         name: Our Clients
-        path: "OU=User Accounts,{ { ad_domain_dn } }"
+        path: "OU=User Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create IT Consultant Non-Privileged Accounts OU
+    - name: Creating 'IT Consultant Non-Privileged Accounts' OU
       community.windows.win_domain_ou:
         name: IT Consultant Non-Privileged Accounts
-        path: "OU=User Accounts,{ { ad_domain_dn } }"
+        path: "OU=User Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Staff-like Test Accounts OU
+    - name: Creating 'Our People ish Test Accounts' OU
       community.windows.win_domain_ou:
-        name: Staff-like Test Accounts
-        path: "OU=User Accounts,{ { ad_domain_dn } }"
+        name: Our People ish Test Accounts
+        path: "OU=User Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Staff-like Training Accounts OU
+    - name: Creating 'Our People ish Training Accounts' OU
       community.windows.win_domain_ou:
-        name: Staff-like Training Accounts
-        path: "OU=User Accounts,{ { ad_domain_dn } }"
+        name: Our People ish Training Accounts
+        path: "OU=User Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create IT Admin Accounts Consultants OU
+    - name: Creating 'Privileged Admin Accounts IT Consultants' OU
       community.windows.win_domain_ou:
-        name: IT Admin Accounts Consultants
-        path: "OU=User Accounts,{ { ad_domain_dn } }"
+        name: Privileged Admin Accounts IT Consultants
+        path: "OU=User Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create IT Admin Accounts Our People OU
+    - name: Creating 'Privileged Admin Accounts Our People' OU
       community.windows.win_domain_ou:
-        name: IT Admin Accounts Our People
-        path: "OU=User Accounts,{ { ad_domain_dn } }"
+        name: Privileged Admin Accounts Our People
+        path: "OU=User Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create IT Service Accounts OU
+    - name: Creating 'Service Accounts' OU
       community.windows.win_domain_ou:
-        name: IT Service Accounts
-        path: "OU=User Accounts,{ { ad_domain_dn } }"
+        name: Service Accounts
+        path: "OU=User Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create IT Service Accounts gMSA OU
+    - name: Creating 'Service Accounts gMSA' OU
       community.windows.win_domain_ou:
-        name: IT Service Accounts gMSA
-        path: "OU=User Accounts,{ { ad_domain_dn } }"
+        name: Service Accounts gMSA
+        path: "OU=User Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Groups OU
+    - name: Creating 'Groups' OU
       community.windows.win_domain_ou:
         name: Groups
         path: DC=paradoxus,DC=local
         state: present
         protected: false
-    - name: create IT Admin Team Groups OU
+    - name: Creating 'IT Admin Teams' OU
       community.windows.win_domain_ou:
-        name: IT Admin Team Groups
-        path: "OU=Groups,{ { ad_domain_dn } }"
+        name: IT Admin Teams
+        path: "OU=Groups,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create IT Admin Role Groups OU
+    - name: Creating 'IT Admin System Roles' OU
       community.windows.win_domain_ou:
-        name: IT Admin Role Groups
-        path: "OU=Groups,{ { ad_domain_dn } }"
+        name: IT Admin System Roles
+        path: "OU=Groups,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Computer Accounts OU
+    - name: Creating 'Computer Accounts' OU
       community.windows.win_domain_ou:
         name: Computer Accounts
         path: DC=paradoxus,DC=local
         state: present
         protected: false
-    - name: create Servers OU
+    - name: Creating 'Servers' OU
       community.windows.win_domain_ou:
         name: Servers
-        path: "OU=Computer Accounts,{ { ad_domain_dn } }"
+        path: "OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Workstations OU
+    - name: Creating 'Servers Linux' OU
       community.windows.win_domain_ou:
-        name: Workstations
-        path: "OU=Computer Accounts,{ { ad_domain_dn } }"
+        name: Servers Linux
+        path: "OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create SOE Full OU
+    - name: Creating 'Workstations' OU
+      community.windows.win_domain_ou:
+        name: End User Workstations
+        path: "OU=Computer Accounts,{{ ad_domain_dn }}"
+        state: present
+        protected: false
+    - name: Creating 'SOE Full' OU
       community.windows.win_domain_ou:
         name: SOE Full
-        path: "OU=Workstations,OU=Computer Accounts,{ { ad_domain_dn } }"
+        path: "OU=End User Workstations,OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create SOE Light OU
+    - name: Creating 'SOE Light' OU
       community.windows.win_domain_ou:
         name: SOE Light
-        path: "OU=Workstations,OU=Computer Accounts,{ { ad_domain_dn } }"
+        path: "OU=End User Workstations,OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Windows IOT OU
+    - name: Creating 'Windows IOT' OU
       community.windows.win_domain_ou:
         name: Windows IOT
-        path: "OU=Computer Accounts,{ { ad_domain_dn } }"
+        path: "OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Windows display panels OU
+    - name: Creating 'Windows display panels' OU
       community.windows.win_domain_ou:
         name: Windows display panels
-        path: "OU=Windows IOT,OU=Computer Accounts,{ { ad_domain_dn } }"
+        path: "OU=Windows IOT,OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Teams rooms OU
+    - name: Creating 'Teams rooms' OU
       community.windows.win_domain_ou:
         name: Teams rooms
-        path: "OU=Windows IOT,OU=Computer Accounts,{ { ad_domain_dn } }"
+        path: "OU=Windows IOT,OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Macintosh workstations OU
+    - name: Creating 'Macintosh workstations' OU
       community.windows.win_domain_ou:
         name: Macintosh workstations
-        path: "OU=Workstations,OU=Computer Accounts,{ { ad_domain_dn } }"
+        path: "OU=End User Workstations,OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create PAW OU
+    - name: Creating 'PAW' OU
       community.windows.win_domain_ou:
-        name: PAW
-        path: "OU=Workstations,OU=Computer Accounts,{ { ad_domain_dn } }"
+        name: Privileged Admin Wokrstations
+        path: "OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create Jump Boxes OU
+    - name: Creating 'Jump Boxes' OU
       community.windows.win_domain_ou:
-        name: Jump Boxes
-        path: "OU=Computer Accounts,{ { ad_domain_dn } }"
+        name: Privileged Admin Jump Boxes
+        path: "OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false
-    - name: create End User Terminal Servers OU
+    - name: Creating 'End User Terminal Servers' OU
       community.windows.win_domain_ou:
         name: End User Terminal Servers
-        path: "OU=Computer Accounts,{ { ad_domain_dn } }"
+        path: "OU=Computer Accounts,{{ ad_domain_dn }}"
         state: present
         protected: false

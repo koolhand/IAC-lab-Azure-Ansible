@@ -1,26 +1,47 @@
 ---
-- name: Post DC
+- name: Installing extra software on Windows server
   hosts: dc
   collections:
     - chocolatey.chocolatey.win_chocolatey
     - ansible.windows.win_updates
     - ansible.windows.win_reboot
+
   vars_prompt:
     - name: ansible_password
       prompt: "Enter local / built-in Administrator password"
+
   tasks:
-    - name: install utilities
+    - name: Installing Windows Admin Center
       win_chocolatey:
-        name:
-          - sysinternals
-          - git.install
-          - python3
-          - powershell-core
-          - vscode.install
-          - windows-admin-center
+        name: windows-admin-center
         state: present
-    - name: Install all updates and reboot as many times as needed
-      ansible.windows.win_updates:
-        state: installed
-        reboot: true
-        reboot_timeout: 3600
+
+    - name: Rebooting after Windows Admin Center
+      ansible.windows.win_reboot:
+
+    - name: Installing PowerShell Core
+      win_chocolatey:
+        name: powershell-core
+        state: present
+
+    - name: Installing Microsoft Sysinternals
+      win_chocolatey:
+        name: sysinternals
+
+    # - name: Installing Microsot Visual Studio Code
+    #   win_chocolatey:
+    #     name: vscode.install
+    #     state: present
+
+    # - name: Installing Git
+    #   win_chocolatey:
+    #     name: git.install
+    #     state: present
+
+    # - name: Installing Python 3
+    #   win_chocolatey:
+    #     name: python3
+    #     state: present
+
+    - name: Rebooting after all installs
+      ansible.windows.win_reboot:
